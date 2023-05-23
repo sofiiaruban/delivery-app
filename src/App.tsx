@@ -1,12 +1,16 @@
-import AppRouter from "./AppRouter"
-import NavBar from "./components/NavBar"
+import { QueryClient, QueryClientProvider } from "react-query";
+import AppRouter from "./AppRouter";
+import NavBar from "./components/NavBar";
 
-const App: React.FC  = () => {
+const queryClient = new QueryClient();
+
+const App: React.FC = () => {
   return (
-    <><AppRouter />
-    <NavBar /></>
-    
-  )
-}
+    <QueryClientProvider client={queryClient}>
+      <AppRouter />
+      <NavBar />
+    </QueryClientProvider>
+  );
+};
 
-export default App
+export default App;

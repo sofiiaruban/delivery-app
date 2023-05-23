@@ -1,4 +1,4 @@
 const Shop: React.FC = () => {
-   return <div>Shop</div>
-}
-export default Shop
+  return <div>Shop</div>;
+};
+export default Shop;
