@@ -1,8 +1,10 @@
 import AppRouter from "./AppRouter"
+import NavBar from "./components/NavBar"
 
 const App: React.FC  = () => {
   return (
-    <AppRouter/>
+    <><AppRouter />
+    <NavBar /></>
     
   )
 }

@@ -1,4 +1,4 @@
-const ShoppingCart= () => {
-    return <div>ShoppingCard</div>
+const ShoppingCart: React.FC= () => {
+    return <div>Shopping Cart</div>
  }
  export default ShoppingCart
