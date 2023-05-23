@@ -1,14 +1,9 @@
-import {Link } from 'react-router-dom';
 
 const NavBar: React.FC = () => {
     return ( 
     <ul>
-        <li>
-            <Link to="/shop">Shop</Link>
-        </li>
-        <li>
-            <Link to="/cart">Shopping Cart</Link>
-        </li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/cart">Shopping Cart</a></li>
     </ul>)
  }
  export default NavBar
