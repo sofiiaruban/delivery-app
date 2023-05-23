@@ -1,14 +1,19 @@
 //import { useState } from 'react'
+import { Routes, Route} from "react-router-dom"
+
 import './App.css'
 
-const App: React.FC  = () =>{
+const App: React.FC  = () => {
 
   return (
-    <>
-      <div>
-        hi
-      </div>
-    </>
+    <Routes>
+      <Route>
+
+      </Route>
+      <Route>
+        
+      </Route>
+    </Routes>
   )
 }
 
