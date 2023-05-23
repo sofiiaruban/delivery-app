@@ -1,8 +1,14 @@
+import styles from "./CategoryCard.module.css";
+
 interface CategoryProps {
-  category: string;
+  category: any;
 }
 
 const CategoryCard: React.FC<CategoryProps> = ({ category }) => {
-  return <li>{category}</li>;
+  return (
+    <li className={styles.listItem} key={category}>
+      {category}
+    </li>
+  );
 };
 export default CategoryCard;

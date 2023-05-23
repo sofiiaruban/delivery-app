@@ -1,4 +1,5 @@
 import { Product } from "../AppRouter";
+import CategoryCard from "../components/CategoryCard";
 
 interface ShopProps {
   categories?: Array<string> | Array<Product>;
@@ -7,7 +8,13 @@ interface ShopProps {
 const Shop: React.FC<ShopProps> = ({ categories }) => {
   return (
     <aside>
-      <ul></ul>
+      <ul>
+        {categories
+          ? categories.map((category, index) => (
+              <CategoryCard key={index} category={category} />
+            ))
+          : null}
+      </ul>
     </aside>
   );
 };
