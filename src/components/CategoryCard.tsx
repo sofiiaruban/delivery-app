@@ -3,7 +3,7 @@ import styles from "./CategoryCard.module.css";
 
 interface CategoryCardProps {
   category: string | Product;
-  clickHandler: () => void;
+  clickHandler: React.MouseEventHandler<HTMLLIElement>;
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({

@@ -14,23 +14,26 @@ const Shop: React.FC<ShopProps> = ({ categories, fetchData }) => {
     categories ? categories[0] : ""
   );
   const BASE_URL: string = import.meta.env.VITE_API_BASE_URL_PRODUCTS;
-  const [productsData, setProductsData] = useState<
-    Array<string> | Array<Product>
-  >([]);
+  const [productsData, setProductsData] = useState<Array<Product>>([]);
   const { isLoading: isLoadingProducts, error: errorProducts } = useQuery<
     Array<string> | Array<Product>
   >("products", () => fetchData(`${BASE_URL}/${activeShop}`), {
     onSuccess: (data) => {
-      setProductsData(data);
+      setProductsData(data as Array<Product>);
     },
   });
 
   useEffect(() => {
     fetchData(`${BASE_URL}/${activeShop}`).then((data) => {
-      setProductsData(data);
+      setProductsData(data as Array<Product>);
     });
   }, [activeShop]);
-  const clickHandler = () => {};
+
+  const clickHandler: React.MouseEventHandler<HTMLLIElement> = (e) => {
+    let selectedShop = e.currentTarget.textContent || "";
+    setActiveShop(selectedShop);
+  };
+
   if (isLoadingProducts) return <div>Loading...</div>;
   if (errorProducts) return <div>Error</div>;
   return (
