@@ -41,7 +41,7 @@ const AppRouter: React.FC = () => {
         <Routes>
           <Route
             path="/shop"
-            element={<Shop categories={categoriesData} />}
+            element={<Shop categories={categoriesData} fetchData={fetchData} />}
           ></Route>
           <Route path="/cart" element={<ShoppingCart />}></Route>
         </Routes>
