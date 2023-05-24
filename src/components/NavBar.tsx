@@ -1,7 +1,9 @@
+import styles from "./NavBar.module.css";
+
 const NavBar: React.FC = () => {
   return (
     <nav>
-      <ul>
+      <ul className={styles.ul}>
         <li>
           <a href="/shop">Shop</a>
         </li>

@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 5rem;
+}
+.wrapper h3 {
+  text-align: center;
+}
+.wrapper aside {
+  max-width: 30%;
+  margin: 0 2rem 0 0;
+}
+.wrapper main {
+  max-width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.wrapper aside {
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+.wrapper aside ul {
+  padding: 0;
+  margin: 1rem 1rem 0;
+}

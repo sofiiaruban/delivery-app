@@ -3,6 +3,7 @@ import { Product } from "../AppRouter";
 import CategoryCard from "../components/CategoryCard";
 import { useQuery } from "react-query";
 import ProductCard from "../components/ProductCard";
+import styles from "./Shop.module.css";
 
 interface ShopProps {
   categories?: Array<string> | Array<Product>;
@@ -37,8 +38,9 @@ const Shop: React.FC<ShopProps> = ({ categories, fetchData }) => {
   if (isLoadingProducts) return <div>Loading...</div>;
   if (errorProducts) return <div>Error</div>;
   return (
-    <>
+    <div className={styles.wrapper}>
       <aside>
+        <h3>Shops:</h3>
         <ul>
           {categories
             ? categories.map((category, index) => (
@@ -61,7 +63,7 @@ const Shop: React.FC<ShopProps> = ({ categories, fetchData }) => {
           />
         ))}
       </main>
-    </>
+    </div>
   );
 };
 export default Shop;
