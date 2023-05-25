@@ -1,11 +1,53 @@
 import AddToCartButton from "./AddToCartButton";
 import styles from "./ProductCard.module.css";
-interface ProductCardProp {
+import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "../firebase";
+
+export interface ProductCardProp {
   src: string;
   title: string;
   price: number;
+  quantity?: number;
 }
-const clickHandler = () => {};
+const clickHandler = async (title: string, src: string, price: number) => {
+  const userRef = doc(db, "users", "user1");
+
+  try {
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+      await updateDoc(userRef, {
+        products: arrayUnion({
+          src: src,
+          title: title,
+          price: price,
+          quantity: 1,
+        }),
+      });
+
+      console.log("Product added successfully!");
+    } else {
+      await setDoc(userRef, {
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        products: [
+          {
+            src: src,
+            title: title,
+            price: price,
+            quantity: 1,
+          },
+        ],
+      });
+
+      console.log("User created successfully!");
+    }
+  } catch (error) {
+    console.error("Error adding/updating product: ", error);
+  }
+};
 const MAX_TITLE_SIZE = 40;
 const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
   return (
@@ -20,7 +62,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
       </h3>
       <div className={styles.cardDetails}>
         <span> {price} &#8372;</span>
-        <AddToCartButton clickHandler={clickHandler} />
+        <AddToCartButton clickHandler={() => clickHandler(title, src, price)} />
       </div>
     </div>
   );
