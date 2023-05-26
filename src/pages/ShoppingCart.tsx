@@ -1,7 +1,7 @@
 import Input from "../components/Input";
 import { ChangeEvent, useEffect, useState } from "react";
 import styles from "./ShoppingCart.module.css";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import OrderedProductCard, {
   OrderedProductCardProps,
@@ -16,6 +16,7 @@ const ShoppingCart: React.FC = () => {
     address: "",
   });
   const [products, setProducts] = useState<Array<OrderedProductCardProps>>([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const setUserFormData = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -26,6 +27,7 @@ const ShoppingCart: React.FC = () => {
       [name]: value,
     }));
   };
+  console.log(formData);
   useEffect(() => {
     const userRef = doc(db, "users", "user1");
     const getProducts = async () => {
@@ -40,6 +42,7 @@ const ShoppingCart: React.FC = () => {
             Object.values(productsData);
 
           setProducts(productsArray);
+          calculateTotalPrice(productsArray);
         } else {
           console.log("User document not found");
         }
@@ -50,8 +53,78 @@ const ShoppingCart: React.FC = () => {
 
     getProducts();
   }, []);
-  const submitHandle = () => {};
-  const handleQuantityChange = (quantity: number) => {};
+
+  const calculateTotalPrice = (productsArray: OrderedProductCardProps[]) => {
+    const totalPrice = productsArray.reduce(
+      (total, product) => total + product.price * product.quantity,
+      0
+    );
+    setTotalPrice(totalPrice);
+  };
+
+  const handleQuantityChange = (productId: string, newQuantity: number) => {
+    const updatedProducts = products.map((product) => {
+      if (product.title === productId) {
+        return { ...product, quantity: newQuantity };
+      }
+      return product;
+    });
+
+    setProducts(updatedProducts);
+    calculateTotalPrice(updatedProducts);
+  };
+
+  const updateFirebaseQuantity = async (
+    productId: string,
+    newQuantity: number
+  ) => {
+    console.log(`Product ID: ${productId}, New Quantity: ${newQuantity}`);
+
+    try {
+      const userRef = doc(db, "users", "user1");
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const productsData: OrderedProductCardProps[] = Object.values(
+          userData.products
+        );
+
+        const updatedProductsData = productsData.map((product) => {
+          if (product.title === productId) {
+            return { ...product, quantity: newQuantity };
+          }
+          return product;
+        });
+
+        await updateDoc(userRef, { products: updatedProductsData });
+      } else {
+        console.log("User document not found");
+      }
+    } catch (error) {
+      console.error("Error updating quantity: ", error);
+    }
+  };
+
+  const submitHandle = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const userRef = doc(db, "users", "user1");
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        await updateDoc(userRef, {
+          formData: formData,
+          totalPrice: totalPrice,
+        });
+        console.log("Form data and total order price updated in Firebase.");
+      } else {
+        console.log("User document not found");
+      }
+    } catch (error) {
+      console.error("Error updating form data and total order price: ", error);
+    }
+  };
   return (
     <form className={styles.form} onSubmit={submitHandle}>
       <div>
@@ -86,12 +159,13 @@ const ShoppingCart: React.FC = () => {
               price={product.price}
               quantity={product.quantity}
               handleQuantityChange={handleQuantityChange}
+              updateFirebaseQuantity={updateFirebaseQuantity}
             />
           ))}
         </section>
       </div>
 
-      <span>Total price:</span>
+      <span>Total price: {totalPrice} &#8372;</span>
       <SubmitButton />
     </form>
   );
