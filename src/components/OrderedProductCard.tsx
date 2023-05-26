@@ -5,6 +5,7 @@ export interface OrderedProductCardProps {
   title: string;
   price: number;
   quantity: number;
+  handleQuantityChange: (quantity: number) => void;
 }
 
 const OrderedProductCard: React.FC<OrderedProductCardProps> = ({
@@ -12,7 +13,12 @@ const OrderedProductCard: React.FC<OrderedProductCardProps> = ({
   title,
   price,
   quantity,
+  handleQuantityChange,
 }) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuantity = parseInt(e.target.value, 10);
+    handleQuantityChange(newQuantity);
+  };
   const MAX_TITLE_SIZE = 20;
   return (
     <div className={styles.card}>
@@ -24,7 +30,13 @@ const OrderedProductCard: React.FC<OrderedProductCardProps> = ({
             : title}
         </h3>
         <span>{price} &#8372;</span>
-        <input type="number" min="1" name="quantity" placeholder="1" />
+        <input
+          type="number"
+          min="1"
+          name="quantity"
+          placeholder={quantity.toString()}
+          onChange={handleInputChange}
+        />
       </div>
     </div>
   );

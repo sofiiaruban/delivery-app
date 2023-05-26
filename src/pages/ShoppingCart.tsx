@@ -1,11 +1,12 @@
 import Input from "../components/Input";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import styles from "./ShoppingCart.module.css";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import OrderedProductCard, {
   OrderedProductCardProps,
 } from "../components/OrderedProductCard";
+import SubmitButton from "../components/SubmitButton";
 
 const ShoppingCart: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -25,59 +26,73 @@ const ShoppingCart: React.FC = () => {
       [name]: value,
     }));
   };
-  const userRef = doc(db, "users", "user1");
-  const getProducts = async () => {
-    try {
-      const userDoc = await getDoc(userRef);
+  useEffect(() => {
+    const userRef = doc(db, "users", "user1");
+    const getProducts = async () => {
+      try {
+        const userDoc = await getDoc(userRef);
 
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        const products = userData.products;
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const productsData: Record<string, OrderedProductCardProps> =
+            userData.products;
+          const productsArray: OrderedProductCardProps[] =
+            Object.values(productsData);
 
-        setProducts(products);
-      } else {
-        console.log("User document not found");
+          setProducts(productsArray);
+        } else {
+          console.log("User document not found");
+        }
+      } catch (error) {
+        console.error("Error retrieving products: ", error);
       }
-    } catch (error) {
-      console.error("Error retrieving products: ", error);
-    }
-  };
-  getProducts();
+    };
+
+    getProducts();
+  }, []);
+  const submitHandle = () => {};
+  const handleQuantityChange = (quantity: number) => {};
   return (
-    <form className={styles.form}>
-      <section className={styles.inputInfo}>
-        <Input
-          inputName="name"
-          inputType="text"
-          setUserFormData={setUserFormData}
-        />
-        <Input
-          inputName="email"
-          inputType="email"
-          setUserFormData={setUserFormData}
-        />
-        <Input
-          inputName="phone"
-          inputType="tel"
-          setUserFormData={setUserFormData}
-        />
-        <Input
-          inputName="address"
-          inputType="text"
-          setUserFormData={setUserFormData}
-        />
-      </section>
-      <section className={styles.orderedProducts}>
-        {products.map((product) => (
-          <OrderedProductCard
-            key={product.title}
-            src={product.src}
-            title={product.title}
-            price={product.price}
-            quantity={product.quantity}
+    <form className={styles.form} onSubmit={submitHandle}>
+      <div>
+        <section className={styles.inputInfo}>
+          <Input
+            inputName="name"
+            inputType="text"
+            setUserFormData={setUserFormData}
           />
-        ))}
-      </section>
+          <Input
+            inputName="email"
+            inputType="email"
+            setUserFormData={setUserFormData}
+          />
+          <Input
+            inputName="phone"
+            inputType="tel"
+            setUserFormData={setUserFormData}
+          />
+          <Input
+            inputName="address"
+            inputType="text"
+            setUserFormData={setUserFormData}
+          />
+        </section>
+        <section className={styles.orderedProducts}>
+          {products.map((product) => (
+            <OrderedProductCard
+              key={product.title}
+              src={product.src}
+              title={product.title}
+              price={product.price}
+              quantity={product.quantity}
+              handleQuantityChange={handleQuantityChange}
+            />
+          ))}
+        </section>
+      </div>
+
+      <span>Total price:</span>
+      <SubmitButton />
     </form>
   );
 };
