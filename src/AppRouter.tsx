@@ -39,10 +39,10 @@ const AppRouter: React.FC = () => {
     <>
       <Routes>
         <Route
-          path="/"
+          path="delivery-app/"
           element={<Shop categories={categoriesData} fetchData={fetchData} />}
         ></Route>
-        <Route path="/cart" element={<ShoppingCart />}></Route>
+        <Route path="delivery-app/cart" element={<ShoppingCart />}></Route>
       </Routes>
     </>
   );
