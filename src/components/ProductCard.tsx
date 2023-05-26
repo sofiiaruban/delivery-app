@@ -1,6 +1,6 @@
 import AddToCartButton from "./AddToCartButton";
 import styles from "./ProductCard.module.css";
-import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 export interface ProductCardProp {
@@ -33,7 +33,6 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
           };
 
           await updateDoc(userRef, { products: updatedProductsData });
-          console.log(`Quantity updated for product: ${title}`);
         } else {
           await updateDoc(userRef, {
             products: {
@@ -41,10 +40,8 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
               [title]: { src, title, price, quantity: 1 },
             },
           });
-          console.log(`Product added: ${title}`);
         }
       } else {
-        // User document doesn't exist, create a new document with the product
         await setDoc(userRef, {
           name: "",
           email: "",
@@ -54,9 +51,8 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
             [title]: { src, title, price, quantity: 1 },
           },
         });
-        console.log(`User document created with product: ${title}`);
       }
-      alert("Product added successfully!");
+      alert("Product added successfully or quantity updated");
     } catch (error) {
       console.error("Error adding/updating product: ", error);
     }
