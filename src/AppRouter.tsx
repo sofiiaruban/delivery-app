@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { useQuery } from "react-query";
 import Shop from "./pages/Shop";
 import ShoppingCart from "./pages/ShoppingCart";
@@ -37,7 +37,7 @@ const AppRouter: React.FC = () => {
   if (errorCategories) return <div>Error</div>;
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route
             path="/"
@@ -45,7 +45,7 @@ const AppRouter: React.FC = () => {
           ></Route>
           <Route path="/cart" element={<ShoppingCart />}></Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 };
