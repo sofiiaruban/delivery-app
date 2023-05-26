@@ -5,10 +5,10 @@ const NavBar: React.FC = () => {
     <nav>
       <ul className={styles.ul}>
         <li>
-          <a href="/">Shop</a>
+          <a href="delivery-app/">Shop</a>
         </li>
         <li>
-          <a href="/cart">Shopping Cart</a>
+          <a href="delivery-app/cart">Shopping Cart</a>
         </li>
       </ul>
     </nav>
