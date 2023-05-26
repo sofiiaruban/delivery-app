@@ -9,47 +9,59 @@ export interface ProductCardProp {
   price: number;
   quantity?: number;
 }
-const clickHandler = async (title: string, src: string, price: number) => {
-  const userRef = doc(db, "users", "user1");
 
-  try {
-    const userDoc = await getDoc(userRef);
-
-    if (userDoc.exists()) {
-      await updateDoc(userRef, {
-        products: arrayUnion({
-          src: src,
-          title: title,
-          price: price,
-          quantity: 1,
-        }),
-      });
-
-      console.log("Product added successfully!");
-    } else {
-      await setDoc(userRef, {
-        name: "",
-        email: "",
-        phone: "",
-        address: "",
-        products: [
-          {
-            src: src,
-            title: title,
-            price: price,
-            quantity: 1,
-          },
-        ],
-      });
-
-      console.log("User created successfully!");
-    }
-  } catch (error) {
-    console.error("Error adding/updating product: ", error);
-  }
-};
-const MAX_TITLE_SIZE = 40;
 const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
+  const clickHandler = async (title: string, src: string, price: number) => {
+    const userRef = doc(db, "users", "user1");
+
+    try {
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const productsData: Record<string, ProductCardProp> = userData.products;
+        if (productsData.hasOwnProperty(title)) {
+          const productToUpdate = productsData[title];
+          const newQuantity = productToUpdate.quantity
+            ? productToUpdate.quantity + 1
+            : 1;
+          productToUpdate.quantity = newQuantity;
+
+          const updatedProductsData = {
+            ...productsData,
+            [title]: productToUpdate,
+          };
+
+          await updateDoc(userRef, { products: updatedProductsData });
+          console.log(`Quantity updated for product: ${title}`);
+        } else {
+          await updateDoc(userRef, {
+            products: {
+              ...productsData,
+              [title]: { src, title, price, quantity: 1 },
+            },
+          });
+          console.log(`Product added: ${title}`);
+        }
+      } else {
+        // User document doesn't exist, create a new document with the product
+        await setDoc(userRef, {
+          name: "",
+          email: "",
+          phone: "",
+          address: "",
+          products: {
+            [title]: { src, title, price, quantity: 1 },
+          },
+        });
+        console.log(`User document created with product: ${title}`);
+      }
+      alert("Product added successfully!");
+    } catch (error) {
+      console.error("Error adding/updating product: ", error);
+    }
+  };
+  const MAX_TITLE_SIZE = 40;
   return (
     <div className={styles.card}>
       <div className={styles.cardImg}>

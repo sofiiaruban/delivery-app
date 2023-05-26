@@ -108,16 +108,22 @@ const ShoppingCart: React.FC = () => {
 
   const submitHandle = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (Object.values(formData).some((value) => value === "")) {
+      alert("Form data is empty");
+      return;
+    }
     try {
       const userRef = doc(db, "users", "user1");
       const userDoc = await getDoc(userRef);
 
       if (userDoc.exists()) {
         await updateDoc(userRef, {
-          formData: formData,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
           totalPrice: totalPrice,
         });
-        console.log("Form data and total order price updated in Firebase.");
       } else {
         console.log("User document not found");
       }
