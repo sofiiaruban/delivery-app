@@ -25,11 +25,22 @@
 }
 .orderedProducts {
   width: 60%;
-  padding: 2rem;
+  padding: 1rem;
   border: 2px solid black;
   border-radius: 5px;
   margin-left: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: auto;
+}
+.totalPrice {
+  display: flex;
+  justify-content: end;
+  margin: 1rem 0;
+  gap: 1rem;
+  align-items: center;
+}
+.totalPrice span {
+  font-weight: 600;
 }

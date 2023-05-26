@@ -170,9 +170,10 @@ const ShoppingCart: React.FC = () => {
           ))}
         </section>
       </div>
-
-      <span>Total price: {totalPrice} &#8372;</span>
-      <SubmitButton />
+      <div className={styles.totalPrice}>
+        <span>Total price: {totalPrice} &#8372;</span>
+        <SubmitButton />
+      </div>
     </form>
   );
 };

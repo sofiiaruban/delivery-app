@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   margin: 0 3rem;
+  overflow: hidden;
 }
 .wrapper h3 {
   text-align: center;
@@ -19,7 +20,7 @@
   border: 2px solid black;
   border-radius: 5px;
   padding: 2rem 2rem 0 2rem;
-  height: 90%;
+  height: 550px;
   overflow: auto;
 }
 .wrapper aside {
