@@ -1,14 +1,14 @@
-.ul {
+.navBar {
   display: flex;
   flex-direction: row;
   justify-content: center;
   text-transform: uppercase;
 }
 
-.ul li:not(:last-child) {
+.navBarItem:not(:last-child) {
   padding: 0 0.5rem 0 0;
   border-right: 2px solid rgb(85, 26, 139);
 }
-.ul li:last-child {
+.navBarItem:last-child {
   padding: 0 0 0 0.5rem;
 }

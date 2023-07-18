@@ -4,14 +4,14 @@
   margin: 0 3rem;
   overflow: hidden;
   height: 100%;
+  gap: 1rem;
 }
 .shopTitle {
   text-align: center;
 }
 .shopCategories {
-  max-width: 30%;
-  margin: 0 2rem 0 0;
-  padding: 5px;
+  max-width: 50%;
+  padding: 5px 5px 3px 0;
   border: 2px solid black;
   border-radius: 5px;
 }
