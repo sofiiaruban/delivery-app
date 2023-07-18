@@ -1,18 +1,21 @@
-.wrapper {
+.shopContainer {
   display: flex;
   justify-content: space-between;
   margin: 0 3rem;
   overflow: hidden;
+  height: 100%;
 }
-.wrapper h3 {
+.shopTitle {
   text-align: center;
 }
-.wrapper aside {
+.shopCategories {
   max-width: 30%;
   margin: 0 2rem 0 0;
-  height: 80%;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 5px;
 }
-.wrapper main {
+.shopMain {
   max-width: 70%;
   display: flex;
   flex-wrap: wrap;
@@ -23,12 +26,8 @@
   height: 550px;
   overflow: auto;
 }
-.wrapper aside {
-  padding: 5px;
-  border: 2px solid black;
-  border-radius: 5px;
-}
-.wrapper aside ul {
+
+.shopCategoriesList {
   padding: 0;
   margin: 1rem 1rem 0;
 }

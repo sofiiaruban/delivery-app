@@ -38,10 +38,10 @@ const Shop: React.FC<ShopProps> = ({ categories, fetchData }) => {
   if (isLoadingProducts) return <div>Loading...</div>;
   if (errorProducts) return <div>Error</div>;
   return (
-    <div className={styles.wrapper}>
-      <aside>
-        <h3>Shops:</h3>
-        <ul>
+    <div className={styles.shopContainer}>
+      <aside className={styles.shopCategories}>
+        <h3 className={styles.shopTitle}>Shops:</h3>
+        <ul className={styles.shopCategoriesList}>
           {categories
             ? categories.map((category, index) => (
                 <CategoryCard
@@ -53,7 +53,7 @@ const Shop: React.FC<ShopProps> = ({ categories, fetchData }) => {
             : null}
         </ul>
       </aside>
-      <main>
+      <main className={styles.shopMain}>
         {productsData.map((product) => (
           <ProductCard
             key={product.id}
