@@ -78,7 +78,6 @@ const ShoppingCart: React.FC = () => {
     productId: string,
     newQuantity: number
   ) => {
-    console.log(`Product ID: ${productId}, New Quantity: ${newQuantity}`);
 
     try {
       const userRef = doc(db, "users", "user1");

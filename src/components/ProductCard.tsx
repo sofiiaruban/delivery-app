@@ -1,7 +1,7 @@
-import AddToCartButton from "./AddToCartButton";
-import styles from "./ProductCard.module.css";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import AddToCartButton from './AddToCartButton';
+import styles from './ProductCard.module.css';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 export interface ProductCardProp {
   src: string;
@@ -12,7 +12,7 @@ export interface ProductCardProp {
 
 const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
   const clickHandler = async (title: string, src: string, price: number) => {
-    const userRef = doc(db, "users", "user1");
+    const userRef = doc(db, 'users', 'user1');
 
     try {
       const userDoc = await getDoc(userRef);
@@ -20,6 +20,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
       if (userDoc.exists()) {
         const userData = userDoc.data();
         const productsData: Record<string, ProductCardProp> = userData.products;
+
         if (productsData.hasOwnProperty(title)) {
           const productToUpdate = productsData[title];
           const newQuantity = productToUpdate.quantity
@@ -29,7 +30,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
 
           const updatedProductsData = {
             ...productsData,
-            [title]: productToUpdate,
+            [title]: productToUpdate
           };
 
           await updateDoc(userRef, { products: updatedProductsData });
@@ -37,35 +38,35 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
           await updateDoc(userRef, {
             products: {
               ...productsData,
-              [title]: { src, title, price, quantity: 1 },
-            },
+              [title]: { src, title, price, quantity: 1 }
+            }
           });
         }
       } else {
         await setDoc(userRef, {
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
+          name: '',
+          email: '',
+          phone: '',
+          address: '',
           products: {
-            [title]: { src, title, price, quantity: 1 },
-          },
+            [title]: { src, title, price, quantity: 1 }
+          }
         });
       }
-      alert("Product added successfully or quantity updated");
+      alert('Product added successfully or quantity updated');
     } catch (error) {
-      console.error("Error adding/updating product: ", error);
+      console.error('Error adding/updating product: ', error);
     }
   };
   const MAX_TITLE_SIZE = 40;
   return (
     <div className={styles.card}>
-      <div className={styles.cardImg}>
-        <img src={src} />
+      <div className={styles.cardImgContainer}>
+        <img className={styles.cardImg} src={src} />
       </div>
-      <h3>
+      <h3 className={styles.cardTitle}>
         {title.length > MAX_TITLE_SIZE
-          ? title.slice(0, MAX_TITLE_SIZE) + "..."
+          ? title.slice(0, MAX_TITLE_SIZE) + '...'
           : title}
       </h3>
       <div className={styles.cardDetails}>
