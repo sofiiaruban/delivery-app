@@ -30,10 +30,6 @@ const OrderedProductCard: React.FC<OrderedProductCardProps> = ({
   };
   const [productsPrice, setProductsPrice] = useState<number>(price * quantity);
 
-  //const MAX_TITLE_SIZE = 30;
-  //{title.length > MAX_TITLE_SIZE
-  //  ? title.slice(0, MAX_TITLE_SIZE) + '...'
-  //  : title}
   return (
     <div className={styles.orderedCard}>
       <img src={src} className={styles.orderedCardImg} />
