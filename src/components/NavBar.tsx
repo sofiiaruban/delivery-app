@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./NavBar.module.css";
 
 const NavBar: React.FC = () => {
@@ -5,10 +6,10 @@ const NavBar: React.FC = () => {
     <nav>
       <ul className={styles.navBar}>
         <li className={styles.navBarItem}>
-          <a href="/shop">Shop</a>
+          <Link to="/">Shop</Link>
         </li>
         <li className={styles.navBarItem}>
-          <a href="/cart">Shopping Cart</a>
+          <Link to="/cart">Shopping Cart</Link>
         </li>
       </ul>
     </nav>
