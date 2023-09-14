@@ -40,7 +40,7 @@ const OrderedProductCard: React.FC<OrderedProductCardProps> = ({
       <div className={styles.orderedCardDetails}>
         <h3 className={styles.orderedCardTitle}>{title}</h3>
         <span className={styles.orderedCaredPrice}>
-          {productsPrice || 0} &#8372;
+          {productsPrice.toFixed(2) || 0} &#8372;
         </span>
         <input
           type="number"
