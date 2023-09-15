@@ -170,7 +170,8 @@ const ShoppingCart: React.FC = () => {
         </section>
       </div>
       <div className={styles.totalPrice}>
-        <span>Total price: {totalPrice.toFixed(2)} &#8372;</span>
+        <span>Total price: {totalPrice.toFixed(2
+          )} &#8372;</span>
         <SubmitButton />
       </div>
     </form>
