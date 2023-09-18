@@ -130,6 +130,7 @@ const ShoppingCart: React.FC = () => {
       console.error("Error updating form data and total order price: ", error);
     }
   };
+  
   return (
     <form className={styles.form} onSubmit={submitHandle}>
       <div>

@@ -11,6 +11,8 @@ export interface ProductCardProp {
 }
 
 const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
+  const MAX_TITLE_SIZE = 40
+
   const clickHandler = async (title: string, src: string, price: number) => {
     const userRef = doc(db, 'users', 'user1');
 
@@ -58,7 +60,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
       console.error('Error adding/updating product: ', error);
     }
   };
-  const MAX_TITLE_SIZE = 40;
+
   return (
     <div className={styles.card}>
       <div className={styles.cardImgContainer}>
