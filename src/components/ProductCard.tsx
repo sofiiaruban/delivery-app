@@ -2,6 +2,8 @@ import AddToCartButton from './AddToCartButton';
 import styles from './ProductCard.module.css';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import ModalBox from './ModalBox';
+import { useState } from 'react';
 
 export interface ProductCardProp {
   src: string;
@@ -12,7 +14,7 @@ export interface ProductCardProp {
 
 const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
   const MAX_TITLE_SIZE = 40
-
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const clickHandler = async (title: string, src: string, price: number) => {
     const userRef = doc(db, 'users', 'user1');
 
@@ -55,14 +57,23 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
           }
         });
       }
-      alert('Product added successfully or quantity updated');
+      //alert('Product added successfully or quantity updated');
+      setModalOpen(true)
     } catch (error) {
       console.error('Error adding/updating product: ', error);
     }
   };
-
+  const modalHandler = (isOpen: boolean) => {
+    setModalOpen(isOpen)
+  }
   return (
     <div className={styles.card}>
+      {modalOpen ? (
+        <ModalBox
+          title="Product added successfully to the shopping cart"
+          clickHandler={modalHandler}
+        />
+      ) : null}
       <div className={styles.cardImgContainer}>
         <img className={styles.cardImg} src={src} />
       </div>
@@ -76,6 +87,6 @@ const ProductCard: React.FC<ProductCardProp> = ({ src, title, price }) => {
         <AddToCartButton clickHandler={() => clickHandler(title, src, price)} />
       </div>
     </div>
-  );
+  )
 };
 export default ProductCard;
